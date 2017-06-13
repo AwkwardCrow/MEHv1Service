@@ -1,0 +1,12 @@
+C:\work\code\MEHv1\MEHv1\bin\Debug\MEHv1.exe.config
+C:\work\code\MEHv1\MEHv1\bin\Debug\MEHv1.exe
+C:\work\code\MEHv1\MEHv1\bin\Debug\MEHv1.pdb
+C:\work\code\MEHv1\MEHv1\bin\Debug\Nancy.dll
+C:\work\code\MEHv1\MEHv1\bin\Debug\Nancy.Hosting.Self.dll
+C:\work\code\MEHv1\MEHv1\bin\Debug\Nancy.xml
+C:\work\code\MEHv1\MEHv1\bin\Debug\Nancy.Hosting.Self.xml
+C:\work\code\MEHv1\MEHv1\obj\Debug\MEHv1.csprojResolveAssemblyReference.cache
+C:\work\code\MEHv1\MEHv1\obj\Debug\MEHv1.exe
+C:\work\code\MEHv1\MEHv1\obj\Debug\MEHv1.pdb
+C:\work\code\MEHv1\MEHv1\bin\Debug\MEHv1.Web.dll
+C:\work\code\MEHv1\MEHv1\bin\Debug\MEHv1.Web.pdb
