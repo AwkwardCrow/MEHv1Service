@@ -15,6 +15,7 @@ namespace MEHv1.Services.Validation
       //check/fix formatting
       //make sure all images referenced are present and all present images are referenced
       //make sure Json looks good
+			//replace image tags with proper href tags during validation
       return post;
     }
 

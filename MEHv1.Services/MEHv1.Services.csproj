@@ -58,9 +58,8 @@
     <Compile Include="ImageUploader\LocalStorageHandler.cs" />
     <Compile Include="Models\Post.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Redis\PersistPost.cs" />
-    <Compile Include="Redis\QueryPosts.cs" />
     <Compile Include="Redis\RedisConnector.cs" />
+    <Compile Include="Utils\Conversions.cs" />
     <Compile Include="Validation\ValidatePost.cs" />
   </ItemGroup>
   <ItemGroup>

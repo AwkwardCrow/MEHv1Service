@@ -5,6 +5,8 @@ using MEHv1.Services.Models;
 using MEHv1.Services.Validation;
 using Nancy;
 using Nancy.ModelBinding;
+using MEHv1.Services.Redis;
+using Newtonsoft.Json;
 
 namespace MEHv1.Web
 {
@@ -18,18 +20,37 @@ namespace MEHv1.Web
     {
       this.fileUploadHandler = fileUploadHandler;
 
-      Get["/"] = x =>
+      Get["/addPost"] = x =>
       {
-        var message = Session[MessageKey] != null ? Session[MessageKey].ToString() : string.Empty;
-        var model = new PostModel
-        {
-          Message = message,
-          Post = Session[PostKey] == null ? new Post() : (Post)Session[PostKey],
-        };
-        Session[MessageKey] = string.Empty;
-        return View["index.html", model];
+				//we dont want this stuff, we just want the form
+        //var message = Session[MessageKey] != null ? Session[MessageKey].ToString() : string.Empty;
+        //var model = new PostModel
+        //{
+        //  Message = message,
+        //  Post = Session[PostKey] == null ? new Post() : (Post)Session[PostKey],
+        //};
+        //Session[MessageKey] = string.Empty;
+        return View["index.html"];
       };
-      Post["/update"] = parameters =>
+
+			Get["/all"] = x =>
+			{
+				var sortedPosts = RedisConnector.GetAllPosts();
+				return JsonConvert.SerializeObject(sortedPosts);
+			};
+
+			Get["/{value:int}"] = x =>
+			{
+				string id = x.value.ToString();
+				var post = RedisConnector.GetPostById(id);
+				if(post!=null)
+				{
+					var result = JsonConvert.SerializeObject(post);
+				}
+				return 400;
+			};
+
+			Post["/update"] = parameters =>
       {
         var post = this.Bind<Post>();
         var imageResults = new List<FileUploadResult>();
@@ -41,12 +62,11 @@ namespace MEHv1.Web
         
         var stubImageResult = fileUploadHandler.HandleUpload(post.SlugImage.Name, post.SlugImage.Value).Result;
 
-        //validate the data
-        //ValidatePost.Validate(post, imageResults, stubImageResult);
+				//validate the data
+				//ValidatePost.Validate(post, imageResults, stubImageResult);
 
-        // save information
-        //this is where we would call the backend process to break everything out into comprehensible json
-        //and persist it to redis where it can be retreived by the site via the API
+				// save information
+				RedisConnector.Save(post);
 
         Session[MessageKey] = "Post Added";
         Session[PostKey] = post;
@@ -57,7 +77,6 @@ namespace MEHv1.Web
 
   public class PostModel
   {
-    //messy but should work...
     public string Message { get; set; }
     public Post Post { get; set; }
     public bool HasMessage
