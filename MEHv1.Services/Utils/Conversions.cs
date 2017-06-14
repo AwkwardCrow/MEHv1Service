@@ -15,5 +15,10 @@ namespace MEHv1.Services.Utils
 						 new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc)).TotalSeconds;
 		}
 
+	  public static DateTime fromUnixDatetime(this double unixTimestamp)
+	  {
+      DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, 0).ToLocalTime();
+      return epoch.AddSeconds(unixTimestamp);
+    }
 	}
 }

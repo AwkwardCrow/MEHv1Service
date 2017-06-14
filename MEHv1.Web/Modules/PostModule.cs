@@ -23,26 +23,25 @@ namespace MEHv1.Web
       Get["/addPost"] = x =>
       {
 				//we dont want this stuff, we just want the form
-        //var message = Session[MessageKey] != null ? Session[MessageKey].ToString() : string.Empty;
-        //var model = new PostModel
-        //{
-        //  Message = message,
-        //  Post = Session[PostKey] == null ? new Post() : (Post)Session[PostKey],
-        //};
+        var model = new PostModel
+        {
+          Post =  new Post()
+        };
+
         //Session[MessageKey] = string.Empty;
-        return View["index.html"];
+        return View["index.html", model];
       };
 
 			Get["/all"] = x =>
 			{
-				var sortedPosts = RedisConnector.GetAllPosts();
+				var sortedPosts = RedisConnector.Instance.GetAllPosts();
 				return JsonConvert.SerializeObject(sortedPosts);
 			};
 
-			Get["/{value:int}"] = x =>
+			Get["/{value:string}"] = x =>
 			{
-				string id = x.value.ToString();
-				var post = RedisConnector.GetPostById(id);
+				string id = x.value;
+				var post = RedisConnector.Instance.GetPostById(id);
 				if(post!=null)
 				{
 					var result = JsonConvert.SerializeObject(post);
@@ -54,19 +53,28 @@ namespace MEHv1.Web
       {
         var post = this.Bind<Post>();
         var imageResults = new List<FileUploadResult>();
+        var imageNames = new List<string>();
         foreach (var image in post.Images)
         {
           var uploadResult = fileUploadHandler.HandleUpload(image.Name, image.Value);
           imageResults.Add(uploadResult.Result);
+          imageNames.Add(image.Name);
         }
-        
-        var stubImageResult = fileUploadHandler.HandleUpload(post.SlugImage.Name, post.SlugImage.Value).Result;
+        if (imageNames.Count > 0)
+          post.ImageNames = imageNames.ToArray();
+
+        if (post.SlugImage != null)
+        {
+          var stubImageResult = fileUploadHandler.HandleUpload(post.SlugImage.Name, post.SlugImage.Value).Result;
+          post.SlugImageName = post.SlugImage.Name;
+        }
+          
 
 				//validate the data
 				//ValidatePost.Validate(post, imageResults, stubImageResult);
 
 				// save information
-				RedisConnector.Save(post);
+				RedisConnector.Instance.Save(post);
 
         Session[MessageKey] = "Post Added";
         Session[PostKey] = post;

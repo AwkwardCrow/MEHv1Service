@@ -46,7 +46,7 @@ namespace MEHv1.Services.Redis
 			_redis = ConnectionMultiplexer.Connect(config).GetDatabase();
     }
 
-		public static void Save(Post post)
+		public void Save(Post post)
 		{
 			post.Id = GetUniqueId();
 			post.Datetime = DateTime.UtcNow.toUnixTimestamp();
@@ -62,11 +62,10 @@ namespace MEHv1.Services.Redis
 			simplePost.Images = null;
 			//store a record of ALL posts for ever and ever in a sorted set, scored by their date added for easy retreival
 			_redis.SortedSetAdd(postListKey, JsonConvert.SerializeObject(simplePost), post.Datetime);
-			
 			//persist permanently somewhere, not a concern for PoC
 		}
 
-		public static Post GetPostById(string id)
+		public Post GetPostById(string id)
 		{
 			Post result = null;
 			var post = _redis.HashGetAll(id);
@@ -75,7 +74,7 @@ namespace MEHv1.Services.Redis
 			return result;
 		}
 
-		public static Post[] GetAllPosts()
+		public Post[] GetAllPosts()
 		{
 			List<Post> result= new List<Post>();
 			var posts = _redis.SortedSetRangeByRank(postListKey, 0, -1);

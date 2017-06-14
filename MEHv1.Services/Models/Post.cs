@@ -15,9 +15,11 @@ namespace MEHv1.Services.Models
     public string Title { get; set; }
     public string Content { get; set; }
     public HttpFile[] Images { get; set; }
+    public string[] ImageNames { get; set; }
     public string Header { get; set; }
     public string SubHeader { get; set; }
     public HttpFile SlugImage { get; set; }
+    public string SlugImageName { get; set; }
     public string SlugDescription { get; set; }
 		public double Datetime { get; set; }
   }
