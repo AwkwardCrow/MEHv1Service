@@ -1,6 +1,0 @@
-C:\work\code\MEHv1\MEHv1.Services\bin\Debug\MEHv1.Services.dll
-C:\work\code\MEHv1\MEHv1.Services\bin\Debug\MEHv1.Services.pdb
-C:\work\code\MEHv1\MEHv1.Services\bin\Debug\Nancy.dll
-C:\work\code\MEHv1\MEHv1.Services\bin\Debug\Nancy.xml
-C:\work\code\MEHv1\MEHv1.Services\obj\Debug\MEHv1.Services.dll
-C:\work\code\MEHv1\MEHv1.Services\obj\Debug\MEHv1.Services.pdb
